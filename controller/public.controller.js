@@ -1,6 +1,8 @@
 const {publicValidate} = require('../validate/public.validate')
 const crypto = require('crypto');
-const mongoose = require('mongoose');
+
+const {getDb} = require('../_helper/dbConnect');
+// const db = getDb();
 
 
 const register = async(req, res)=>{
@@ -11,13 +13,17 @@ const register = async(req, res)=>{
 
 
 const addPassCode = async(req, res)=>{
-    schools.find({passCode: {$exists: true}}).forEach( school => {
-        let passCode = crypto.randomBytes(16);
+   
+    let passCode
+    // const users  = await db.collection('users').find().toArray()
+   const user =  await db.collection('schools').find().forEach( school => {
+            passCode = crypto.randomBytes(16);
             passCode = passCode.toString('hex'); 
             console.log(passCode)
-            schools.updateOne({_id: school._id}, {$set: {passCode}});
+            db.collection('schools').updateOne({_id: school._id}, {$set: {passCode}});
       })
-    res.status(200).json({message:"everything is fine"})
+
+    res.status(200).json({message:"everything is fine", user:user})
 }
 
 
