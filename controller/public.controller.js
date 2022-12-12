@@ -2,7 +2,7 @@ const {publicValidate} = require('../validate/public.validate')
 const crypto = require('crypto');
 
 const {getDb} = require('../_helper/dbConnect');
-// const db = getDb();
+
 
 
 const register = async(req, res)=>{
@@ -13,7 +13,7 @@ const register = async(req, res)=>{
 
 
 const addPassCode = async(req, res)=>{
-   
+   const db = getDb();
     let passCode
     // const users  = await db.collection('users').find().toArray()
    const user =  await db.collection('schools').find().forEach( school => {
